@@ -11,7 +11,7 @@ on:
     - cron: '0 0 * * 1-5' # Runs every weekday at 00:00 UTC
 
 env:
-  ECR_REPOSITORY: vprofile-appimage
+  ECR_REPOSITORY: 'vprofile-appimage'
 
 permissions:
   contents: read
