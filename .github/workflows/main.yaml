@@ -6,9 +6,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-
   workflow_dispatch:
-
   schedule:
     - cron: '0 0 * * 1-5' # Runs every weekday at 00:00 UTC
 
@@ -147,4 +145,4 @@ jobs:
          IMAGE_TAG: ${{ github.sha }}
        run: |
          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
