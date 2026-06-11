@@ -23,6 +23,13 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
     - name: Run script
       run: |
         echo "Running CI/CD pipeline..."
@@ -47,6 +54,13 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
     - name: Run tests
       if: github.ref == 'refs/heads/main'  
       run: |
@@ -70,6 +84,13 @@ jobs:
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
     - name: Run Trivy Security Scan
       if: github.ref == 'refs/heads/main'
       uses: aquasecurity/trivy-action@master
