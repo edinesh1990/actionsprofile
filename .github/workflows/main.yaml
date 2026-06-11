@@ -1,0 +1,35 @@
+#Github Actions workflow for CI/CD pipeline
+
+name: CI/CD Pipeline
+on:
+  push:
+	branches: [ main ]
+  pull_request:
+	branches: [ main ]
+
+jobs:
+  build:
+	runs-on: ubuntu-latest
+	steps:
+	- name: Checkout code
+	  uses: actions/checkout@v2
+	- name: Run script
+	  run: |
+		echo "Running CI/CD pipeline..."
+	- name: Maven Build
+	  run: |
+		mvn clean install
+
+  Test:
+	runs-on: ubuntu-latest
+	steps:
+	- name: Checkout code
+	  uses: actions/checkout@v2
+	- name: Run tests
+	  run: |
+		echo "Running tests..."
+		mvn test
+	- name: Checkstyle
+	  run: |
+		echo "Running Checkstyle..."
+		mvn checkstyle:checkstyle
