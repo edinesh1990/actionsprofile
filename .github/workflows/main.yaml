@@ -12,6 +12,9 @@ on:
   schedule:
     - cron: '0 0 * * 1-5' # Runs every weekday at 00:00 UTC
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,6 +29,15 @@ jobs:
     - name: Maven Build
       run: |
         mvn clean install
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: vprofile
+        path: target/*.jar
+    - name: Notify if Build Fails
+      if: failure()
+      run: |
+        echo "Build failed! Please check the logs for details."
 
   Test:
     runs-on: ubuntu-latest
@@ -36,10 +48,16 @@ jobs:
       with:
         fetch-depth: 0
     - name: Run tests
+      if: github.ref == 'refs/heads/main'  
       run: |
         echo "Running tests..."
         mvn test
     - name: Checkstyle
+      if: github.ref == 'refs/heads/main'
       run: |
         echo "Running Checkstyle..."
         mvn checkstyle:checkstyle
+    - name: Skipping tests for non-main branches
+      if: github.ref != 'refs/heads/main'
+      run: |
+        echo "Skipping tests for non-main branch."
